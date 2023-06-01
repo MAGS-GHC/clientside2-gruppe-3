@@ -1,26 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <script>
-      let txt = "";
-      async function APIKald() {
-        ind = document.getElementById("ind").value;
-        url = "https://api.dataforsyningen.dk/postnumre/" + ind;
-        var req = new Request(url);
-        const response = await fetch(req);
-        const Objekt = await response.json();
-        document.getElementById("id1").innerHTML =
-          Objekt.nr + " " + Objekt.navn;
-        txt = "";
-        Objekt.kommuner.forEach(myFunction);
-        document.getElementById("ud").innerHTML = txt;
-      }
-      function myFunction(value, index, array) {
-        txt += index + 1 + " " + value.navn + "<br>";
-      }
-    </script>
     <meta charset="utf-8" />
     <title>MAGS - GET /u kommentar</title>
+    <script defer src="script.js"></script>
+
   </head>
   <body>
     <a
