@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API Company Checker</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h1>Tjek virksomheden</h1>
+    <input type="text" id="companyInput" placeholder="Enter company number">
+    <button onclick="fetchCompanyData()">Submit</button>
+    <section id="loader" class="paytm-loader"></section>
+  </div>
+  <div id="companyCard"></div>
+</body>
+</html>
