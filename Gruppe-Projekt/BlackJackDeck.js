@@ -1,5 +1,5 @@
 fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6')
-    .then((response) => response.text())
+    .then((response) => response.json())
     .then((result) => {drawCard(result)})
     .catch((error) => console.log("error, error"));
 
