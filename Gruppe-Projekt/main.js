@@ -61,7 +61,7 @@ function loginUser(event) {
         
         // Redirect to the dashboard folder if login is successful
         if (data.message === 'Login successful') {
-          window.location.href = '/dashboard';
+          window.location.href = '/game';
         }
       })
       .catch(error => {
