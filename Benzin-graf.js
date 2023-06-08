@@ -5,8 +5,8 @@
 
 fetch('https://magsapi.com/api/miles95')
 
-.then(response => response.json())
-.then(data => {
+const(response => response.json())
+const(data => {
     console.log(data);
     dataHandler(data);
 })
