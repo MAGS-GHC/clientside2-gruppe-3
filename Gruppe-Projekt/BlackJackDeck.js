@@ -2,20 +2,34 @@ const cardContainer = document.querySelector(".cards");
 const passButton = document.querySelector(".pass");
 const callButton = document.querySelector(".call");
 
+let count = 6;
+let deckID;
 
 
-fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6')
+
+fetch(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=${count}`)
     .then((response) => response.json())
-    .then((result) => {drawCard(result)})
+    .then((result) => {
+        deckID = result.deck_id;
+        count = 2;
+        drawCard()
+        console.log(count)
+        console.log(deckID)
+
+    
+    })
     .catch((error) => console.log("error, error"));
 
 
+    console.log(deckID)
 
 function drawCard(result) {
-
-    fetch(`https://deckofcardsapi.com/api/deck/${result.deck_id}/draw/?count=2`)
+    fetch(`https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=${count}`)
     .then((response) => response.json())
-    .then((result) => {printCard(result)})
+    .then((result) => {
+        printCard(result)
+        count = 1;
+    })
     .catch((error) => console.log("error", error));
 
 }   
@@ -31,8 +45,8 @@ function printCard(result) {
 
 }
 
-function callNewcard(){
-    fetch(`https://deckofcardsapi.com/api/deck/${result.deck_id}/draw/?count=1`)
+function callNewcard(result){
+    fetch(`https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=1`)
     .then((response) => response.json())
     .then((result) => {printCard(result)})
     .catch((error) => console.log("error", error));
