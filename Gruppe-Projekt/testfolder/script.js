@@ -1,4 +1,4 @@
-/* // Player object to keep track of each player's money
+// Player object to keep track of each player's money
 function Player(name) {
     this.name = name;
     this.money = 500;
@@ -62,17 +62,3 @@ function Player(name) {
   console.log('Player 1 money:', game.players[0].money);
   console.log('Player 2 money:', game.players[1].money);
   
-
- */
-  const cardContainer = document.querySelector(".card");
-
-
-  
-  cardContainer.innerHTML = `    
-  <div class="card-wrapper">
-    <img src="" alt="" class="card-image">
-    <h1> Hello WOrld </h1>
-  </div>
-  `
-
-
