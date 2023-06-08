@@ -15,107 +15,112 @@ const dbName = 'Junkyard';
 
 let db;
 
-// Connect to MongoDB
+// Opret forbindelse til MongoDB
 MongoClient.connect(mongoURI, { useUnifiedTopology: true })
   .then(client => {
-    console.log('Connected to MongoDB');
+    console.log('Forbundet til MongoDB');
     db = client.db(dbName);
     app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
+      console.log(`Serveren kører på port ${PORT}`);
     });
   })
   .catch(err => {
-    console.error('Error connecting to MongoDB:', err);
+    console.error('Fejl ved forbindelse til MongoDB:', err);
   });
 
+// Angiv en rute til rodstien ('/') og send index.html-filen som svar
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Angiv en rute til '/redirect'-stien og send game/index.html-filen som svar
 app.get('/redirect', (req, res) => {
-    res.sendFile(path.join(__dirname, 'game', 'index.html'));
-  });
-  
+  res.sendFile(path.join(__dirname, 'game', 'index.html'));
+});
+
+// Angiv en rute til '/create'-stien og send create/index.html-filen som svar
+app.get('/create', (req, res) => {
+  res.sendFile(path.join(__dirname, 'create', 'index.html'));
+});
 
 app.post('/users/register', (req, res) => {
   const { username, email, password } = req.body;
 
-  // Hash the password
+  // Kryptér passwordet
   const hashedPassword = bcrypt.hashSync(password, 10);
 
-  // Store user credentials in the database
+  // Gem brugeroplysninger i databasen
   db.collection('users').insertOne({ username, email, password: hashedPassword })
     .then(result => {
-      res.status(200).json({ message: 'User registered successfully' });
+      res.status(200).json({ message: 'Bruger registreret med succes' });
     })
     .catch(error => {
-      console.error('Error registering user:', error);
-      res.status(500).json({ message: 'Failed to register user' });
+      console.error('Fejl ved registrering af bruger:', error);
+      res.status(500).json({ message: 'Kunne ikke registrere bruger' });
     });
 });
 
 app.post('/users/login', (req, res) => {
   const { email, password } = req.body;
 
-  // Find the user with the specified email in the database
+  // Find brugeren med den specificerede email i databasen
   db.collection('users')
     .findOne({ email })
     .then(user => {
-      console.log('Retrieved User:', user);
+      console.log('Hentet bruger:', user);
       if (user) {
-        // Compare the provided password with the hashed password stored in the database
+        // Sammenlign det angivne password med det krypterede password i databasen
         bcrypt.compare(password, user.password, (err, result) => {
           if (err) {
-            console.error('Error comparing passwords:', err);
-            res.status(500).json({ message: 'Failed to compare passwords' });
+            console.error('Fejl ved sammenligning af passwords:', err);
+            res.status(500).json({ message: 'Kunne ikke sammenligne passwords' });
           } else if (result) {
-            // Passwords match, login successful
-            res.status(200).json({ message: 'Login successful' });
+            // Passwords matcher, login succesfuldt
+            res.status(200).json({ message: 'Login succesfuldt' });
           } else {
-            // Passwords do not match
-            res.status(401).json({ message: 'Invalid credentials' });
+            // Passwords matcher ikke
+            res.status(401).json({ message: 'Ugyldige loginoplysninger' });
           }
         });
       } else {
-        // User not found
-        res.status(404).json({ message: 'User not found' });
+        // Bruger ikke fundet
+        res.status(404).json({ message: 'Bruger ikke fundet' });
       }
     })
     .catch(error => {
-      console.error('Error retrieving user:', error);
-      res.status(500).json({ message: 'Failed to retrieve user' });
+      console.error('Fejl ved hentning af bruger:', error);
+      res.status(500).json({ message: 'Kunne ikke hente bruger' });
     });
 });
 
-
 app.get('/users', (req, res) => {
-  // Retrieve all users from the database
+  // Hent alle brugere fra databasen
   db.collection('users').find().toArray()
     .then(users => {
       res.status(200).json(users);
     })
     .catch(error => {
-      console.error('Error retrieving users:', error);
-      res.status(500).json({ message: 'Failed to retrieve users' });
+      console.error('Fejl ved hentning af brugere:', error);
+      res.status(500).json({ message: 'Kunne ikke hente brugere' });
     });
 });
 
 app.get('/users/username/:username', (req, res) => {
   const { username } = req.params;
 
-  // Retrieve the user with the specified username from the database
+  // Hent brugeren med det specificerede brugernavn fra databasen
   db.collection('users')
     .findOne({ username })
     .then(user => {
       if (user) {
         res.status(200).json(user);
       } else {
-        res.status(404).json({ message: 'User not found' });
+        res.status(404).json({ message: 'Bruger ikke fundet' });
       }
     })
     .catch(error => {
-      console.error('Error retrieving user:', error);
-      res.status(500).json({ message: 'Failed to retrieve user' });
+      console.error('Fejl ved hentning af bruger:', error);
+      res.status(500).json({ message: 'Kunne ikke hente bruger' });
     });
 });
 
@@ -130,7 +135,7 @@ module.exports = {
         callback(null, users);
       })
       .catch((error) => {
-        console.error('Error retrieving users:', error);
+        console.error('Fejl ved hentning af brugere:', error);
         callback(error, null);
       });
   },
