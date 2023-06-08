@@ -28,7 +28,7 @@ function loginUser(event) {
         console.log('Login Response:', data);
         
         // Redirect to the dashboard folder if login is successful
-        if (data.message === 'Login successful') {
+        if (data.message === 'Login succesfuldt') {
           window.location.href = '/game';
         }
       })

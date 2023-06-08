@@ -87,6 +87,7 @@ app.post('/users/login', (req, res) => {
             res.status(200).json({ message: 'Login succesfuldt' });
           } else {
             // Passwords matcher ikke
+            console.log(user)
             res.status(401).json({ message: 'Ugyldige loginoplysninger' });
           }
         });
