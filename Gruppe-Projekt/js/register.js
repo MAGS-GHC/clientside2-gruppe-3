@@ -27,7 +27,7 @@ function registerUser(event) {
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        if (data.message === 'User registered successfully') {
+        if (data.message === 'Bruger registreret med succes') {
 
             alert('User was created. You will go to the game in 2 seconds after you click okay.');
       

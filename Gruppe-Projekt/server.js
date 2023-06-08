@@ -49,8 +49,16 @@ app.post('/users/register', (req, res) => {
   // Kryptér passwordet
   const hashedPassword = bcrypt.hashSync(password, 10);
 
+  // Create a new user object with the wallet attribute
+  const newUser = {
+    username,
+    email,
+    password: hashedPassword,
+    wallet: 500, // Default value for the wallet attribute
+  };
+
   // Gem brugeroplysninger i databasen
-  db.collection('users').insertOne({ username, email, password: hashedPassword })
+  db.collection('users').insertOne(newUser)
     .then(result => {
       res.status(200).json({ message: 'Bruger registreret med succes' });
     })
