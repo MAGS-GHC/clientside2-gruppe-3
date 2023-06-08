@@ -3,5 +3,5 @@ function saveName() {
   var name = inputField.value;
   localStorage.setItem("savedName", name);
   console.log("Name saved: " + name);
-  window.location.href = "/game/game.html";
+  window.location.href = "game/index.html";
 }

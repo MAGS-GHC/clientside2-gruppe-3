@@ -1,0 +1,19 @@
+#money-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 20px;
+  }
+  
+  #total-money {
+    font-weight: bold;
+  }
+  
+  #jetons-container {
+    margin-top: 10px;
+  }
+  
+  .jeton {
+    margin-right: 5px;
+  }
+  
