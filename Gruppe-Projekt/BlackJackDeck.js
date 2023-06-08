@@ -18,11 +18,14 @@ function drawCard(result) {
 
 }   
 function printCard(result) {
-    cardContainer.innerHTML =`
+
+    for(let i = 0; i < result.cards.length; i++){
+
+    cardContainer.innerHTML +=`
     <div class="cardWrapping">
-    <img src="${result.cards.image}" alt="" class="card_image">
+    <img src="${result.cards[i].image}" alt="" class="card_image">
     </div>`
-    
+    }
 
 }
 
