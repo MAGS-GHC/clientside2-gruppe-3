@@ -3,6 +3,7 @@ const passButton = document.querySelector(".pass");
 const callButton = document.querySelector(".call");
 
 
+
 fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6')
     .then((response) => response.json())
     .then((result) => {drawCard(result)})
@@ -11,7 +12,7 @@ fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6')
 
 
 function drawCard(result) {
-    console.log(result.deck_id)
+
     fetch(`https://deckofcardsapi.com/api/deck/${result.deck_id}/draw/?count=2`)
     .then((response) => response.json())
     .then((result) => {printCard(result)})
@@ -30,7 +31,13 @@ function printCard(result) {
 
 }
 
-
+function callNewcard(){
+    fetch(`https://deckofcardsapi.com/api/deck/${result.deck_id}/draw/?count=1`)
+    .then((response) => response.json())
+    .then((result) => {printCard(result)})
+    .catch((error) => console.log("error", error));
+    
+}
 
 
 
