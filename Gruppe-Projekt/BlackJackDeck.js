@@ -1,5 +1,6 @@
 const cardContainer = document.querySelector(".cards");
-
+const passButton = document.querySelector(".pass");
+const callButton = document.querySelector(".call");
 
 
 fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6')
@@ -28,6 +29,7 @@ function printCard(result) {
     }
 
 }
+
 
 
 
