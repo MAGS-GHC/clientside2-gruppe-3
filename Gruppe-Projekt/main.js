@@ -24,6 +24,7 @@ function loginUser(event) {
     })
       .then(response => response.json())
       .then(data => {
+        console.log(data)
         console.log(data.message);
         console.log('Login Response:', data);
         

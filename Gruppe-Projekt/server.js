@@ -54,7 +54,7 @@ app.post('/users/register', (req, res) => {
     username,
     email,
     password: hashedPassword,
-    wallet: 500, // Default value for the wallet attribute
+    wallet: 500, 
   };
 
   // Gem brugeroplysninger i databasen
@@ -70,6 +70,8 @@ app.post('/users/register', (req, res) => {
 
 app.post('/users/login', (req, res) => {
   const { email, password } = req.body;
+
+  console.log(password)
 
   // Find brugeren med den specificerede email i databasen
   db.collection('users')
@@ -101,6 +103,7 @@ app.post('/users/login', (req, res) => {
       res.status(500).json({ message: 'Kunne ikke hente bruger' });
     });
 });
+
 
 app.get('/users', (req, res) => {
   // Hent alle brugere fra databasen
