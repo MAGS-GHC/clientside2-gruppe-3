@@ -42,7 +42,10 @@ function printCard(result) {
     for(let i = 0; i < result.cards.length; i++){
     
     score = result.cards[i].value;
-    console.log(score)
+    if(result.cards[i].value == "JACK"){
+        score = 10;
+    }
+    console.log(typeof score)
         
     cardContainer.innerHTML +=`
     <div class="cardWrapping">
