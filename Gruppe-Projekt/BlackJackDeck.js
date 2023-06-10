@@ -1,6 +1,7 @@
 const cardContainer = document.querySelector(".cards");
 const passButton = document.querySelector(".pass");
 const callButton = document.querySelector(".call");
+const combinedScore = document.querySelector(".cards");
 
 let count = 6;
 let deckID;
@@ -40,17 +41,36 @@ function drawCard(result) {
 function printCard(result) {
 
     for(let i = 0; i < result.cards.length; i++){
+
+    /* parseInt("result.cards.value"); */
     
     score = result.cards[i].value;
     if(result.cards[i].value == "JACK"){
         score = 10;
     }
-    console.log(typeof score)
+    if(result.cards[i].value == "QUEEN"){
+        score = 10;
+    }
+    if(result.cards[i].value == "KING"){
+        score = 10;
+    }
+    if(result.cards[i].value == "ACE"){
+        score = 1;
+    }
+    
+    console.log(score)
         
     cardContainer.innerHTML +=`
     <div class="cardWrapping">
     <img src="${result.cards[i].image}" alt="" class="card_image">
     </div>`
+
+    combinedScore.innerHTML +=`
+    <div class="score">
+    <
+    
+    `
+
     }
 
 }
