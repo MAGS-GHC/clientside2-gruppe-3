@@ -4,7 +4,7 @@ const callButton = document.querySelector(".call");
 
 let count = 6;
 let deckID;
-
+let score = 0;
 
 
 fetch(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=${count}`)
@@ -12,16 +12,17 @@ fetch(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=${count}`)
     .then((result) => {
         deckID = result.deck_id;
         count = 2;
+        
         drawCard()
         console.log(count)
         console.log(deckID)
-
+        
     
     })
     .catch((error) => console.log("error, error"));
 
 
-    console.log(deckID)
+    
 
 
 
@@ -32,6 +33,9 @@ function drawCard(result) {
     .then((result) => {
         printCard(result)
         count = 1;
+
+        
+
     })
     .catch((error) => console.log("error", error));
 
@@ -39,7 +43,13 @@ function drawCard(result) {
 function printCard(result) {
 
     for(let i = 0; i < result.cards.length; i++){
-
+    
+    score = result.cards[i].value;
+    if(result.cards[i].value == "JACK"){
+        score = 10;
+    }
+    console.log(typeof score)
+        
     cardContainer.innerHTML +=`
     <div class="cardWrapping">
     <img src="${result.cards[i].image}" alt="" class="card_image">
@@ -55,6 +65,11 @@ function callNewcard(result){
     .catch((error) => console.log("error", error));
     
 }
+
+function passNewcard(result){
+
+}
+
 
 
 
