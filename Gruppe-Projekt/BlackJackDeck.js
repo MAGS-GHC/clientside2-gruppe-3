@@ -23,6 +23,9 @@ fetch(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=${count}`)
 
     console.log(deckID)
 
+
+
+
 function drawCard(result) {
     fetch(`https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=${count}`)
     .then((response) => response.json())
