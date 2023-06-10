@@ -44,8 +44,6 @@ function drawCard(result) {
 function printCard(result) {
 
     for(let i = 0; i < result.cards.length; i++){
-
-    /* parseInt("result.cards.value"); */
     
     score = result.cards[i].value;
     if(result.cards[i].value == "JACK"){
@@ -60,8 +58,8 @@ function printCard(result) {
     if(result.cards[i].value == "ACE"){
         score = 1;
     }
-    
-    console.log(score)
+
+    console.log(parseInt(score, 10))
         
     cardContainer.innerHTML +=`
     <div class="cardWrapping">
