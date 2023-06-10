@@ -8,7 +8,7 @@ let deckID;
 let score = 0;
 let card1Value;
 let card2Value;
-let totalCardValue = score + score;
+let totalCardValue = (card1Value + card2Value);
 
 fetch(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=${count}`)
     .then((response) => response.json())
@@ -61,7 +61,8 @@ function printCard(result) {
         score = 1;
     }
 
-   
+    
+
     console.log(parseInt(score, 10))
 
     
