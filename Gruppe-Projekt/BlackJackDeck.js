@@ -6,9 +6,12 @@ const combinedScore = document.querySelector(".cards");
 let count = 6;
 let deckID;
 let score = 0;
-/* let card1Value;
+let card1Value;
 let card2Value;
-let totalCardValue = (score + score); */
+/* let card3Value;
+let card4Value;
+let card5value; */
+let totalCardValue;
 
 fetch(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=${count}`)
     .then((response) => response.json())
@@ -61,9 +64,14 @@ function printCard(result) {
         score = 1;
     }
 
-    
+    card1Value = (parseInt(result.cards[0].value));
+    card2Value = (parseInt(result.cards[1].value));
+   /*  card3Value = (parseInt(result.cards[2].value));
+    card4Value = (parseInt(result.cards[3].value));
+    card5value = (parseInt(result.cards[4].value)); */
+    totalCardValue = card1Value + card2Value;
 
-    console.log(score)
+    console.log(totalCardValue)
     
     
         
