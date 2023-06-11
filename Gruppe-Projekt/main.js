@@ -29,9 +29,29 @@ function loginUser(event) {
         console.log('Login Response:', data);
         
         // Redirect to the dashboard folder if login is successful
+        // After successful login
         if (data.message === 'Login succesfuldt') {
-          window.location.href = '/game';
-        }
+          fetch('http://localhost:5000/users')
+            .then(response => response.json())
+            .then(users => {
+              const user = users.find(user => user.email === email);
+              if (user) {
+                // Store username and other attributes in localStorage
+                localStorage.setItem('username', user.username);
+                localStorage.setItem('email', user.email);
+                localStorage.setItem('wallet', user.wallet);
+                window.location.href = '/game';
+              } else {
+                console.error('User not found in the database');
+                // Handle the case where the user is not found in the database
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              // Handle the error
+            });
+}
+
       })
       .catch(error => {
         console.error('Error logging in:', error);

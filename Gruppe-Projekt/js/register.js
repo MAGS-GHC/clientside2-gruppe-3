@@ -1,4 +1,5 @@
 document.getElementById('registerForm').addEventListener('submit', registerUser);
+const errorMSG = document.getElementById('errorMessage');
 
 
 
@@ -31,14 +32,20 @@ function registerUser(event) {
 
             alert('User was created. You will go to the game in 2 seconds after you click okay.');
       
-            // Redirect to the game folder after 2 seconds
+           
             setTimeout(() => {
               window.location.href = '/game/index.html';
             }, 2000);
-          }      
+          }
+          if(data.message === 'Email already exists'){
+            errorMSG.innerHTML = `<p> Mailen fandtes allerede tryk <a href="../"> her </a> for at logge ind`;
+          }   
+          
+          
       })
       .catch(error => {
         console.error('Error:', error);
-        // Handle the error
+       
+
       });
   }

@@ -1,12 +1,8 @@
-fetch('http://localhost:5000/users')
-  .then(response => response.json())
-  .then(data => {
-    console.log(data[11].wallet);
-    console.log(data[11].username);
-    console.log(data[11].email);
-    // Use the user data in your game logic here
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    // Handle the error
-  });
+const username = localStorage.getItem('username');
+
+if (username) {
+  console.log('Username:', username);
+  // Fetch the user's data using the username if needed
+} else {
+  // Handle the case where the username is not available in localStorage
+}
