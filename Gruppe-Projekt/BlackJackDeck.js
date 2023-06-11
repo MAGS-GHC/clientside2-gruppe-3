@@ -70,6 +70,7 @@ function printCard(result) {
     card4Value = (parseInt(result.cards[3].value));
     card5value = (parseInt(result.cards[4].value)); */
     totalCardValue = card1Value + card2Value;
+    /* totalCardValue = (parseInt(score + score)); */
 
     console.log(totalCardValue)
     
