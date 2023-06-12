@@ -1,0 +1,24 @@
+.chips-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: auto;
+    width: 30%;
+}
+
+.chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.chip i {
+    font-size: 3rem;
+    color: white;
+}
+
+.chip-label {
+    margin-top: 5px;
+    color: white;
+}

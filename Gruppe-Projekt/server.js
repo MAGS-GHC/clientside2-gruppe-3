@@ -153,6 +153,43 @@ app.get('/users/username/:username', (req, res) => {
     });
 });
 
+app.post('/users/wallet/update', (req, res) => {
+  const { email, amount } = req.body;
+
+  // Retrieve the user from the database based on the email
+  db.collection('users')
+    .findOne({ email })
+    .then((user) => {
+      if (user) {
+        // Deduct the amount from the user's wallet balance
+        const newBalance = user.wallet - amount;
+
+        // Update the user's wallet balance in the database
+        db.collection('users')
+          .updateOne(
+            { email },
+            { $set: { wallet: newBalance } }
+          )
+          .then(() => {
+            // Return success message
+            res.status(200).json({ message: 'Wallet updated successfully' });
+          })
+          .catch((error) => {
+            console.error('Error updating wallet:', error);
+            res.status(500).json({ message: 'Error updating wallet' });
+          });
+      } else {
+        // User not found
+        res.status(404).json({ message: 'User not found' });
+      }
+    })
+    .catch((error) => {
+      console.error('Error finding user:', error);
+      res.status(500).json({ message: 'Error finding user' });
+    });
+});
+
+
 app.use(express.static(__dirname));
 
 module.exports = {
