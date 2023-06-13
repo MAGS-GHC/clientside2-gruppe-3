@@ -5,6 +5,9 @@ const callButton = document.querySelector(".call");
 const chips = document.querySelectorAll(".chip");
 const pileAmount = document.querySelector(".pile-amount span");
 const loader = document.querySelector(".loader");
+const gameContainer = document.querySelector(".game-container");
+const loaderBg = document.querySelector(".loader-bg");
+
 
 let count = 6;
 let deckID;
@@ -140,11 +143,19 @@ callButton.addEventListener("click", callNewCard);
 passButton.addEventListener("click", passNewCard);
 
 function showLoader() {
+  loader.classList.remove("fade-out");
   loader.style.display = "block";
 }
 
 function hideLoader() {
-  loader.style.display = "none";
+  loaderBg.classList.add("fade-out");
+  loader.classList.add("fade-out");
+  gameContainer.classList.add("fade-in");
+  
+  setTimeout(() => {
+    loader.style.display = "none";
+    loaderBg.style.display = "none"; 
+  }, 500);
 }
 
 function initialDraw() {
@@ -168,11 +179,9 @@ async function startGame() {
   } finally {
     setTimeout(() => {
       hideLoader();
-    }, 2000);
+    }, 3000);
   }
 }
-
-
 
 function callNewCard() {
   if (playerScore < 21) {
