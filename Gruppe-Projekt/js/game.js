@@ -4,6 +4,7 @@ const passButton = document.querySelector(".pass");
 const callButton = document.querySelector(".call");
 const chips = document.querySelectorAll(".chip");
 const pileAmount = document.querySelector(".pile-amount span");
+const loader = document.querySelector(".loader");
 
 let count = 6;
 let deckID;
@@ -14,39 +15,21 @@ let dealerCards = [];
 let wallet = parseInt(localStorage.getItem("wallet"), 10);
 let pileValue = 0; // Initialize pileValue as 0
 
-fetch(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=${count}`)
-  .then((response) => response.json())
-  .then((result) => {
-    deckID = result.deck_id;
-    count = 3;
-    initialDraw();
-  })
-  .catch((error) => console.log("error", error));
+const drawCardFromDeck = async (numCards, cardArray, container) => {
+  const response = await fetch(`https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=${numCards}`);
+  const result = await response.json();
+  const cards = result.cards;
+  cards.forEach((card) => {
+    const cardImage = document.createElement("img");
+    cardImage.src = card.image;
+    cardImage.alt = card.code;
+    container.appendChild(cardImage);
+    cardArray.push(card);
+    updateScore(card, cardArray);
+  });
+};
 
-function initialDraw() {
-  drawCard(2, playerCards, cardContainer);
-  drawCard(1, dealerCards, dealerContainer);
-}
-
-function drawCard(numCards, cardArray, container) {
-  fetch(`https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=${numCards}`)
-    .then((response) => response.json())
-    .then((result) => {
-      const cards = result.cards;
-      for (let i = 0; i < numCards; i++) {
-        const card = cards[i];
-        const cardImage = document.createElement("img");
-        cardImage.src = card.image;
-        cardImage.alt = card.code;
-        container.appendChild(cardImage);
-        cardArray.push(card);
-        updateScore(card, cardArray);
-      }
-    })
-    .catch((error) => console.log("error", error));
-}
-
-function calculateCardValue(cardValue) {
+const calculateCardValue = (cardValue) => {
   if (cardValue === "ACE") {
     return 11;
   } else if (cardValue === "KING" || cardValue === "QUEEN" || cardValue === "JACK") {
@@ -54,20 +37,28 @@ function calculateCardValue(cardValue) {
   } else {
     return parseInt(cardValue, 10);
   }
-}
+};
 
-function updateScore(card, cardArray) {
-  const value = calculateCardValue(card.value);
+const updateScore = (card, cardArray) => {
+  const values = calculateCardValue(card.value);
   if (cardArray === playerCards) {
-    playerScore += value;
-    if (playerScore > 21 && cardArray.some((card) => card.value === "ACE")) {
-      playerScore -= 10;
+    // Check if the card is an Ace
+    if (card.value === "ACE") {
+      // Prompt the user to choose the value for Ace based on their preference
+      const chosenValue = prompt("Choose the value for Ace: 1 or 11");
+      playerScore += parseInt(chosenValue, 10);
+    } else {
+      playerScore += values;
     }
     console.log("Player Score:", playerScore);
   } else if (cardArray === dealerCards) {
-    dealerScore += value;
-    if (dealerScore > 21 && cardArray.some((card) => card.value === "ACE")) {
-      dealerScore -= 10;
+    // Check if the card is an Ace
+    if (card.value === "ACE") {
+      // Choose the value of Ace based on the preference (closer to 21)
+      const chosenValue = dealerScore + values[1] <= 21 ? values[1] : values[0];
+      dealerScore += chosenValue;
+    } else {
+      dealerScore += values;
     }
     console.log("Dealer Score:", dealerScore);
   }
@@ -76,26 +67,12 @@ function updateScore(card, cardArray) {
   } else if (playerScore > 21) {
     determineWinner();
   }
-}
+};
 
-function callNewCard() {
-  if (playerScore < 21) {
-    drawCard(1, playerCards, cardContainer);
-  }
-}
-
-function passNewCard() {
-  if (dealerScore < 17) {
-    drawCard(1, dealerCards, dealerContainer);
-  } else {
-    determineWinner();
-  }
-}
-
-function determineWinner() {
+const determineWinner = () => {
   let message = "";
-  if (playerScore === 21 && playerCards.length === 2) {
-    if (dealerScore === 21 && dealerCards.length === 2) {
+  if (playerScore === 21) {
+    if (dealerScore === 21) {
       message = "Push! It's a tie!";
       updateWallet(pileValue); // Return the bet amount to the player
     } else {
@@ -122,13 +99,27 @@ function determineWinner() {
     message = "Dealer wins!";
   }
   console.log(message);
-}
+};
 
-function updateWallet(amount) {
-  wallet += amount;
-  localStorage.setItem("wallet", wallet);
-  document.querySelector(".navbar-wallet").textContent = wallet;
-}
+const updateWallet = async (amount) => {
+  const username = localStorage.getItem('username');
+  const newWallet = wallet + amount;
+
+  try {
+    const response = await fetch(`/users/updateWallet/${username}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ newWallet }),
+    });
+    const data = await response.json();
+    wallet = newWallet;
+    localStorage.setItem('wallet', newWallet);
+  } catch (error) {
+    console.error('Error updating wallet:', error);
+  }
+};
 
 // Event listeners for chip buttons
 chips.forEach((chip) => {
@@ -148,7 +139,65 @@ chips.forEach((chip) => {
 callButton.addEventListener("click", callNewCard);
 passButton.addEventListener("click", passNewCard);
 
+function showLoader() {
+  loader.style.display = "block";
+}
+
+function hideLoader() {
+  loader.style.display = "none";
+}
+
+function initialDraw() {
+  drawCardFromDeck(2, playerCards, cardContainer);
+  drawCardFromDeck(1, dealerCards, dealerContainer);
+}
+
+async function startGame() {
+  showLoader();
+  try {
+    const response = await fetch(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=${count}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch deck");
+    }
+    const result = await response.json();
+    deckID = result.deck_id;
+    count = 3;
+    initialDraw();
+  } catch (error) {
+    console.log("Error:", error);
+  } finally {
+    setTimeout(() => {
+      hideLoader();
+    }, 2000);
+  }
+}
+
+
+
+function callNewCard() {
+  if (playerScore < 21) {
+    drawCardFromDeck(1, playerCards, cardContainer);
+  }
+}
+
+function passNewCard() {
+  if (dealerScore < 17) {
+    drawCardFromDeck(1, dealerCards, dealerContainer).then(() => {
+      if (dealerScore < 17) {
+        passNewCard();
+      } else {
+        determineWinner();
+      }
+    });
+  } else {
+    determineWinner();
+  }
+}
+
 function updatePileAmount(amount) {
   pileValue += amount; // Add the amount to the pile value
   pileAmount.textContent = pileValue; // Update the pile amount in the HTML
 }
+
+// Call the startGame function to initiate the game
+startGame();
