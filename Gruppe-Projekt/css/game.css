@@ -1,42 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@100;200;300;400;500;600;700;800;900&family=Tilt+Prism&display=swap');
+
+
+
 *{
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    font-family: 'Tilt Prism', cursive;
+    color: gold;
+    
     
 }
 
 body {
     background-image: url('../assets/images/bg-junkyard.png');
     background-size: cover;
-    background-position: center;
+    width: 100%;
+    animation: backgroundAnimation 10s infinite linear;
 }
 
 .game-wrapper{
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    height: 80vh;
-    padding-top: 5rem;
+    height: 60vh;
+    max-height: 60vh;
     text-align: center;
     color: white;
+    background-image: url(../assets/images/blackjack-layout-1-black.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .cardWrapping{
     width: 15%;
+    
 }
 
 .card-container{
-    display: flex;
     flex-direction: row;
     justify-content: space-around;
     margin-bottom: 2.5rem;
+    
 }
 
 .card-container img{
-    width: 5%;
+    width: 70px;
+    margin: 1rem;
 }
+
+
 .dealer-cards img{
-    width: 5%;
+    width: 70px;
+    margin: 1rem;
 }
 
 .dealer-cards{
@@ -54,7 +71,7 @@ body {
 }
 
 .btn-container button{
-    width: 45%;
+    width: 40%;
     height: 30px;
     cursor: pointer;
 }
@@ -80,6 +97,22 @@ body {
     margin: 5%;
 }
 
-h2{
-    text-align: center;
+
+.player-cards.card-container{
+    position: relative;
+    width: 400px;
+    left: 30%;
+    top: 25%;
 }
+
+@keyframes backgroundAnimation {
+    0% {
+      background-position: 0 0;
+    }
+    50% {
+      background-position: -20px -20px;
+    }
+    100% {
+      background-position: 0 0;
+    }
+  }

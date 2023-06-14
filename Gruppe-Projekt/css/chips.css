@@ -1,3 +1,8 @@
+.player-container{
+    position: relative;
+    top: 20%;
+}
+
 .chips-container {
     display: flex;
     align-items: center;
@@ -22,3 +27,19 @@
     margin-top: 5px;
     color: white;
 }
+
+@keyframes chipAnimation {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(0.9);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .chip-animate {
+    animation: chipAnimation 0.3s;
+  }

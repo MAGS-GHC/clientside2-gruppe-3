@@ -15,7 +15,7 @@
 
    <script defer src="../js/game.js"></script>
    <script defer src="../js/nav.js"></script>
-    <script defer src="../js/bank.js"></script>
+    
 
     <!-- junk -->
     <script src="https://kit.fontawesome.com/7c9eddd821.js" crossorigin="anonymous"></script>
@@ -52,10 +52,14 @@
 
       <div class="game-container">
         <div class="game-wrapper">
-            <h1>Dealer</h1>
+            <div class="dealer-score"></div>
             <div class="dealer-cards"></div>
-            <h1>Player</h1>
+           
                 <div class="player-cards card-container"></div>
+
+
+                <div class="player-container">
+                <div class="player-score"></div>
                 <div class="btn-container">
                     <button  class="call">Call</button>
                 <button  class="pass">Pass</button>
@@ -67,22 +71,23 @@
                     <span class="chip-label">1</span>
                 </div>
                 <div class="chip" data-value="5">
-                    <i class="fa-solid fa-dice-one"></i>
+                    <i class="fa-solid fa-dice-two"></i>
                     <span class="chip-label">5</span>
                 </div>
                 <div class="chip" data-value="10">
-                    <i class="fa-solid fa-dice-one"></i>
+                    <i class="fa-solid fa-dice-three"></i>
                     <span class="chip-label">10</span>
                 </div>
                 <div class="chip" data-value="25">
-                    <i class="fa-solid fa-dice-one"></i>
+                    <i class="fa-solid fa-dice-four"></i>
                     <span class="chip-label">25</span>
                 </div>
                 <div class="chip" data-value="100">
-                    <i class="fa-solid fa-dice-one"></i>
+                    <i class="fa-solid fa-dice-five"></i>
                     <span class="chip-label">100</span>
                 </div>
             </div>
+        </div>
         </div>
     </div>
 </body>

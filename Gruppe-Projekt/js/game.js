@@ -1,13 +1,28 @@
 const cardContainer = document.querySelector(".card-container");
 const dealerContainer = document.querySelector(".dealer-cards");
+
 const passButton = document.querySelector(".pass");
 const callButton = document.querySelector(".call");
+
 const chips = document.querySelectorAll(".chip");
 const pileAmount = document.querySelector(".pile-amount span");
-const loader = document.querySelector(".loader");
 const gameContainer = document.querySelector(".game-container");
+
+const loader = document.querySelector(".loader");
 const loaderBg = document.querySelector(".loader-bg");
+
 const navWallet = document.querySelector(".navbar-wallet");
+
+const dealerScoreOP = document.querySelector(".dealer-score");
+const playerScoreOP = document.querySelector(".player-score");
+
+const modal = document.getElementById("modal");
+const modalMessage = document.getElementById("modal-message");
+const logoutButton = document.getElementById("logout-button");
+const playAgainButton = document.getElementById("play-again-button");
+
+
+
 
 
 let count = 6;
@@ -18,11 +33,6 @@ let playerCards = [];
 let dealerCards = [];
 let wallet = parseInt(localStorage.getItem("wallet"), 10);
 let pileValue = 0; 
-const modal = document.getElementById("modal");
-const modalMessage = document.getElementById("modal-message");
-const logoutButton = document.getElementById("logout-button");
-const playAgainButton = document.getElementById("play-again-button");
-
 
 navWallet.textContent = `${wallet}`
 
@@ -56,24 +66,27 @@ const calculateCardValue = (cardValue) => {
 const updateScore = (card, cardArray) => {
   const values = calculateCardValue(card.value);
   if (cardArray === playerCards) {
-    // Check if the card is an Ace
+
     if (card.value === "ACE") {
-      // Prompt the user to choose the value for Ace based on their preference
+
       const chosenValue = prompt("Choose the value for Ace: 1 or 11");
       playerScore += parseInt(chosenValue, 10);
     } else {
       playerScore += values;
     }
+    playerScoreOP.innerHTML = `<h1>Player score: ${playerScore}</h1>`;
+
     console.log("Player Score:", playerScore);
   } else if (cardArray === dealerCards) {
-    // Check if the card is an Ace
+
     if (card.value === "ACE") {
-      // Choose the value of Ace based on the preference (closer to 21)
+
       const chosenValue = dealerScore + values[1] <= 21 ? values[1] : values[0];
       dealerScore += chosenValue;
     } else {
       dealerScore += values;
     }
+    dealerScoreOP.innerHTML = `<h1>Dealer score: ${dealerScore}</h1>`;
     console.log("Dealer Score:", dealerScore);
   }
   if (playerScore === 21) {
@@ -85,11 +98,11 @@ const updateScore = (card, cardArray) => {
 
 
 logoutButton.addEventListener("click", () => {
-  // Perform logout logic here
+/* log ud logik clear local, og tilbage til login */
 });
 
 playAgainButton.addEventListener("click", () => {
-  location.reload(); // Refresh the page
+  location.reload();
 });
 
 const openModal = (message) => {
@@ -106,32 +119,32 @@ const determineWinner = () => {
   if (playerScore === 21) {
     if (dealerScore === 21) {
       message = "Push! It's a tie!";
-      updateWallet(pileValue); // Return the bet amount to the player
+      updateWallet(pileValue); 
     } else {
       message = "Blackjack! You win!";
-      updateWallet(pileValue * 2.5); // Player wins 2.5 times the bet
+      updateWallet(pileValue * 2.5); 
     }
   } else if (playerScore > 21) {
     if (dealerScore > 21) {
       message = "Push! It's a tie!";
-      updateWallet(pileValue); // Return the bet amount to the player
+      updateWallet(pileValue); 
     } else {
       message = "You bust! Dealer wins!";
     }
   } else if (playerScore === dealerScore) {
     message = "Push! It's a tie!";
-    updateWallet(pileValue); // Return the bet amount to the player
+    updateWallet(pileValue); 
   } else if (dealerScore > 21) {
     message = "Dealer busts! You win!";
-    updateWallet(pileValue * 2); // Player wins the bet amount
+    updateWallet(pileValue * 2); 
   } else if (playerScore > dealerScore) {
     message = "You win!";
-    updateWallet(pileValue * 2); // Player wins the bet amount
+    updateWallet(pileValue * 2);
   } else {
     message = "Dealer wins!";
   }
   console.log(message);
-  openModal(message); // Open the modal with the message
+  openModal(message); 
 };
 
 const updateWallet = async (amount) => {
@@ -156,13 +169,17 @@ const updateWallet = async (amount) => {
   }
 };
 
-// Event listeners for chip buttons
+
 chips.forEach((chip) => {
   const chipValue = parseInt(chip.dataset.value);
   chip.addEventListener("click", () => {
     if (wallet >= chipValue) {
-      updateWallet(-chipValue); // Subtract the chip value from the wallet
-      updatePileAmount(chipValue); // Add the chip value to the pile amount
+      updateWallet(-chipValue);
+      updatePileAmount(chipValue); 
+      chip.classList.add("chip-animate"); 
+      setTimeout(() => {
+        chip.classList.remove("chip-animate"); 
+      }, 500);
       
       console.log("Chip clicked:", chipValue);
     } else {
@@ -237,9 +254,9 @@ function passNewCard() {
 }
 
 function updatePileAmount(amount) {
-  pileValue += amount; // Add the amount to the pile value
-  pileAmount.textContent = pileValue; // Update the pile amount in the HTML
+  pileValue += amount; 
+  pileAmount.textContent = pileValue; 
 }
 
-// Call the startGame function to initiate the game
+
 startGame();
