@@ -7,6 +7,7 @@ const pileAmount = document.querySelector(".pile-amount span");
 const loader = document.querySelector(".loader");
 const gameContainer = document.querySelector(".game-container");
 const loaderBg = document.querySelector(".loader-bg");
+const navWallet = document.querySelector(".navbar-wallet");
 
 
 let count = 6;
@@ -16,7 +17,17 @@ let dealerScore = 0;
 let playerCards = [];
 let dealerCards = [];
 let wallet = parseInt(localStorage.getItem("wallet"), 10);
-let pileValue = 0; // Initialize pileValue as 0
+let pileValue = 0; 
+const modal = document.getElementById("modal");
+const modalMessage = document.getElementById("modal-message");
+const logoutButton = document.getElementById("logout-button");
+const playAgainButton = document.getElementById("play-again-button");
+
+
+navWallet.textContent = `${wallet}`
+
+
+
 
 const drawCardFromDeck = async (numCards, cardArray, container) => {
   const response = await fetch(`https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=${numCards}`);
@@ -72,6 +83,24 @@ const updateScore = (card, cardArray) => {
   }
 };
 
+
+logoutButton.addEventListener("click", () => {
+  // Perform logout logic here
+});
+
+playAgainButton.addEventListener("click", () => {
+  location.reload(); // Refresh the page
+});
+
+const openModal = (message) => {
+  modalMessage.textContent = message;
+  modal.style.display = "block";
+};
+
+const closeModal = () => {
+  modal.style.display = "none";
+};
+
 const determineWinner = () => {
   let message = "";
   if (playerScore === 21) {
@@ -102,6 +131,7 @@ const determineWinner = () => {
     message = "Dealer wins!";
   }
   console.log(message);
+  openModal(message); // Open the modal with the message
 };
 
 const updateWallet = async (amount) => {
@@ -119,6 +149,8 @@ const updateWallet = async (amount) => {
     const data = await response.json();
     wallet = newWallet;
     localStorage.setItem('wallet', newWallet);
+    navWallet.textContent = newWallet;
+    closeModal();
   } catch (error) {
     console.error('Error updating wallet:', error);
   }
@@ -131,7 +163,7 @@ chips.forEach((chip) => {
     if (wallet >= chipValue) {
       updateWallet(-chipValue); // Subtract the chip value from the wallet
       updatePileAmount(chipValue); // Add the chip value to the pile amount
-      // Perform additional actions as needed (e.g., add the chip to the bet)
+      
       console.log("Chip clicked:", chipValue);
     } else {
       alert("Insufficient funds in the wallet!");
@@ -173,6 +205,7 @@ async function startGame() {
     const result = await response.json();
     deckID = result.deck_id;
     count = 3;
+    
     initialDraw();
   } catch (error) {
     console.log("Error:", error);

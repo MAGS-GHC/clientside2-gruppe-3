@@ -10,10 +10,11 @@
    <link rel="stylesheet" href="../css/nav.css">
    <link rel="stylesheet" href="../css/game.css">
    <link rel="stylesheet" href="../css/chips.css">
+   <link rel="stylesheet" href="../css/modal.css">
 
 
-    <script defer src="../js/game.js"></script>
-    <script defer src="../js/nav.js"></script>
+   <script defer src="../js/game.js"></script>
+   <script defer src="../js/nav.js"></script>
     <script defer src="../js/bank.js"></script>
 
     <!-- junk -->
@@ -37,6 +38,17 @@
         </div>
       </nav>
       <h2 class="pile-amount">Prize pool: <span id="pile-value">0</span></h2>
+
+      <div id="modal" class="modal">
+        <div class="modal-content">
+          <p id="modal-message"></p>
+          <div class="modal-buttons">
+            <button id="logout-button">Log Out</button>
+            <button id="play-again-button">Play Again</button>
+          </div>
+        </div>
+      </div>
+      
 
       <div class="game-container">
         <div class="game-wrapper">
