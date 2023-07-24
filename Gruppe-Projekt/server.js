@@ -10,13 +10,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const PORT = 5000;
 const mongoURI ='mongodb+srv://Daniel:DMS1997@atlascluster.by0nbvr.mongodb.net/?retryWrites=true&w=majority';
-const dbName = 'Junkyard';
+const dbName = 'ViborgVFF';
 
 let db;
 
 async function startServer() {
   try {
-    // Establish connection to MongoDB
     const client = await MongoClient.connect(mongoURI, { useUnifiedTopology: true });
     console.log('Connected to MongoDB');
     db = client.db(dbName);
@@ -67,7 +66,7 @@ app.post('/users/register', async (req, res) => {
       };
 
       // Save user information in the database
-      await db.collection('users').insertOne(newUser);
+      await db.collection('test').insertOne(newUser);
       res.status(200).json({ message: 'User registered successfully' });
     }
   } catch (error) {
