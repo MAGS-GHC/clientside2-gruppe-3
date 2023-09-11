@@ -1,7 +1,6 @@
 const { MongoClient } = require('mongodb');
 const mongoURI = 'mongodb+srv://Daniel:DMS1997@atlascluster.by0nbvr.mongodb.net/?retryWrites=true&w=majority';
 const dbName = 'Junkyard';
-const PORT = 5000;
 
 
 module.exports = async function startServer(app, port) {

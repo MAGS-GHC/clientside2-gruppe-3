@@ -54,7 +54,6 @@ app.post('/users/login', async (req, res) => {
 
 app.get('/users', async (req, res) => {
     try {
-      // Get all users from the database
       const users = await db.collection('users').find().toArray();
       res.status(200).json(users);
     } catch (error) {
